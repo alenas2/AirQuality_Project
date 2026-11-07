@@ -8,7 +8,7 @@ Hasil analisis disajikan dalam bentuk notebook Jupyter dan dashboard interaktif 
 
 ## Dataset
 
-**Link Dashboard:** https://air-quality-analysis-alen.streamlit.app/ 
+**Link Dashboard:** https://air-quality-analysis-project-byalen.streamlit.app/ 
 
 ## Dataset
 
