@@ -3,9 +3,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-import zipfile
-import os
-import glob
+from pathlib import Path
 
 # Konfigurasi halaman
 st.set_page_config(
@@ -94,32 +92,12 @@ st.markdown("""
 
 
 # Membaca Dataset
+BASE_DIR = Path(__file__).resolve().parent
+
 @st.cache_data
 def load_data():
-    zip_path = "Air-quality-dataset.zip"
-    extract_path = "data"
-
-    # Mengekstrak file ZIP
-    os.makedirs(extract_path, exist_ok=True)
-
-    with zipfile.ZipFile(zip_path, "r") as zip_ref:
-        zip_ref.extractall(extract_path)
-
-    # Mencari seluruh file CSV
-    csv_files = glob.glob(
-        os.path.join(extract_path, "**", "*.csv"),
-        recursive=True
-    )
-
-    # Membaca dan menggabungkan seluruh CSV
-    dataframes = []
-
-    for file in csv_files:
-        temp_df = pd.read_csv(file)
-        dataframes.append(temp_df)
-
-    df = pd.concat(dataframes, ignore_index=True)
-
+    csv_path = BASE_DIR / "main_data.csv"
+    df = pd.read_csv(csv_path)
     return df
 
 
@@ -129,7 +107,6 @@ try:
 except Exception as e:
     st.error(f"Gagal memuat dataset: {e}")
     st.stop()
-
 # Membuat kolom datetime
 df["datetime"] = pd.to_datetime(
     df[["year", "month", "day", "hour"]],
